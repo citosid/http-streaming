@@ -35,6 +35,8 @@ const xhrFactory = function() {
       }
     }
 
+    options.withCredentials = true;
+
     const request = videojsXHR(options, function(error, response) {
       const reqResponse = request.response;
 
@@ -63,12 +65,12 @@ const xhrFactory = function() {
       // (for file uris) to be errors, but the old XHR did, so emulate that
       // behavior. Status 206 may be used in response to byterange requests.
       if (!error &&
-          !request.aborted &&
-          response.statusCode !== 200 &&
-          response.statusCode !== 206 &&
-          response.statusCode !== 0) {
+        !request.aborted &&
+        response.statusCode !== 200 &&
+        response.statusCode !== 206 &&
+        response.statusCode !== 0) {
         error = new Error('XHR Failed with a response of: ' +
-                          (request && (reqResponse || request.responseText)));
+          (request && (reqResponse || request.responseText)));
       }
 
       callback(error, request);
